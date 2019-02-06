@@ -1,7 +1,7 @@
 
 # Code for Initialized Equilibrium Propagation for Backprop-Free Training
 
-To set up this repo:
+To set up this repo, within an environment with Python 3.6+, go:
 
 ```
 git clone https://github.com/quva-lab/init-eqprop.git
