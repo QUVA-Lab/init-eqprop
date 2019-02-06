@@ -1,7 +1,7 @@
 
 # Code for Initialized Equilibrium Propagation for Backprop-Free Training
 
-This is the code for the paper [Initialized Equilibrium Propagation for Backprop-Free Training Peter O'Connor, Efstratios Gavves, Max Welling](https://openreview.net/forum?id=B1GMDsR5tm)
+This is the code for the paper [Initialized Equilibrium Propagation for Backprop-Free Training, Peter O'Connor, Efstratios Gavves, Max Welling](https://openreview.net/forum?id=B1GMDsR5tm)
 
 To set up this repo, within an environment with Python 3.6+ (you can create one with `virtualenv venv36 --python=python3.6; source venv36/bin/activate`), go:
 
