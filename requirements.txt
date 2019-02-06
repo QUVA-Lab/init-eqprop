@@ -1,1 +1,7 @@
-.
+numpy
+matplotlib
+torch
+torchvision
+theano
+-e git+https://github.com/quva-lab/artemis.git@peter
+-e git+https://github.com/petered/plato.git@ongoing_changes_2
