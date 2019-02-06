@@ -11,6 +11,7 @@ from init_eqprop.pytorch_helpers import MomentumOptimizer, AdamMaxOptimizer, Ada
 from matplotlib import pyplot as plt
 import numpy as np
 
+
 def cosine_distance(a, b, dim):
     d = (a*b).sum(dim=dim)/torch.sqrt((a**2).sum(dim=dim) * (b**2).sum(dim=dim))
     return d
@@ -39,16 +40,12 @@ def forward_pass(phi, x, nonlinearity):
     return [s for s in [x] for w in phi for s in [h(s @ w)]]
 
 
-
 def show_convergence(record: ExperimentRecord, orientation = 'v'):
 
     results = record.get_result()  # type: Duck
     args = record.get_args()
 
-    # newduck = Duck(list(d[['t', 'L(phi_local)', 'L(phi_global)', 'alignments']] for d in results))
     newduck = results.break_in()
-
-    # with vstack_plots(xlabel='Iterations', xlim=(0, args['n_iter']*1.4), left_pad=0.15, bottom_pad=0.1, spacing=0.05):
 
     plt.figure(figsize=(8, 6) if orientation=='v' else (10, 2))
 
@@ -117,8 +114,6 @@ def demo_local_grad_convergence(
 
     phi_local, phi_global = [p.clone() for p in phi], [p.clone() for p in phi]
 
-    # local_optimizer = MomentumOptimizer(learning_rate=learning_rate, momentum=0)
-    # global_optimizer = MomentumOptimizer(learning_rate=learning_rate, momentum=0)
     local_optimizer = MomentumOptimizer(learning_rate=0.01, momentum=0.9)
     global_optimizer = MomentumOptimizer(learning_rate=0.01, momentum=0.9)
     # local_optimizer = AdamMaxOptimizer(alpha=0.01)
@@ -176,32 +171,9 @@ def demo_local_grad_convergence(
             yield results
             with hold_dbplots(draw_every=100):
                 dbplot(np.array([phi_local_loss_global.item(), phi_global_loss_global.item()]), 'losses', grid=True, axis='loss', legend=['$L(\phi_{local})$', '$L(\phi_{global})$'])
-            # dbplot(phi_global_loss_global, '$L(\phi_{{global}})$', axis='loss')
         else:
             phi_local = local_optimizer.update(params=phi_local, grads=phi_local_grad_local)
-            # phi_local = local_optimizer.update(params=phi_local[:1], grads=phi_local_grad_local[:1]) + phi_local[1:]
             phi_global = global_optimizer.update(params=phi_global, grads=phi_global_grad_global)
-
-
-    # distant_loss_grads = [torch.autograd.grad(sum(losses[i+1:]), inputs = p, retain_graph=True)[0] if i<len(losses)-1 else torch.zeros_like(p) for i, p in enumerate(phi)]
-
-
-
-
-    # # Check that the gradients add up, as expected
-    # for loc, dist, glob in izip_equal(local_loss_grads, distant_loss_grads, global_loss_grads):
-    #     assert cosine_distance(glob.flatten(), (loc+dist).flatten(), dim=0) > 0.99, 'Gradients not adding up?'
-    #     # assert torch.allclose(glob, loc+dist, atol=1e-3, rtol=1e-5) and not torch.allclose(glob, torch.zeros_like(glob))
-
-    # d_local_global = [cosine_distance(gt.flatten(), gl.flatten(), dim=0).mean() for gt, gl in izip_equal(global_loss_grads, local_loss_grads)]
-    # d_distant_global = [cosine_distance(gt.flatten(), gl.flatten(), dim=0).mean() for gt, gl in izip_equal(global_loss_grads, distant_loss_grads)]
-    # d_local_distant = [cosine_distance(gt.flatten(), gl.flatten(), dim=0).mean() for gt, gl in izip_equal(local_loss_grads, distant_loss_grads)]
-    #
-    # m_local_over_distant = [(l**2).mean()/(d**2).mean() for l, d in izip_equal(local_loss_grads, distant_loss_grads)]
-    # m_local_over_global = [(l**2).mean()/(d**2).mean() for l, d in izip_equal(local_loss_grads, global_loss_grads)]
-    #
-    # fields = {'D(local,global)': d_local_global, 'D(distant,global)': d_distant_global, 'D(local,distant)': d_local_distant, '||local||/||distant||':m_local_over_distant, '||local||/||global||':m_local_over_global}
-    # print(tabulate(build_table(lookup_fcn=lambda row, col: fields[col][row], row_categories=list(range(len(losses))), column_categories=fields.keys(), include_column_category=False), headers=['Depth']+list(fields.keys())))
 
 
 # ======================================================================================================================
@@ -229,15 +201,3 @@ achievable_ortho = demo_local_grad_convergence.add_variant('achievable-ortho', n
 
 if __name__ == '__main__':
     demo_local_grad_convergence.browse()
-    # achievable_exp.run()
-    # unachievable_exp.run()
-    # show_convergence(achievable_exp.get_latest_record())
-    # show_convergence(unachievable_exp.get_latest_record())
-    # show_convergence(achievable_ortho.get_latest_record())
-
-    # achievable_ortho.run()
-    # achievable_ortho.browse()
-
-    # demo_local_grad_convergence.call(width=200, depth=8, target_mode='state', ortho=False,  nonlinearity='relu')
-    # demo_local_grad_convergence.run(width=200, depth=8, init_scale=1.2, target_mode='params', ortho=False,  nonlinearity='tanh')
-    # demo_local_grad_convergence.browse(keep_reco%rd=False)
