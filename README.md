@@ -1,5 +1,8 @@
 
-# init-eqprop
+# Code for Initialized Equilibrium Propagation for Backprop-Free Training
+
+... Coming Soon ...
+
 
 To set up this repo, go:
 
