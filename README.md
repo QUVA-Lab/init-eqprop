@@ -1,7 +1,7 @@
 
 # Code for Initialized Equilibrium Propagation for Backprop-Free Training
 
-To set up this repo, within an environment with Python 3.6+, go:
+To set up this repo, within an environment with Python 3.6+ (you can create one with `virtualenv venv36 --python=python3.6; source venv36/bin/activate`), go:
 
 ```
 git clone https://github.com/quva-lab/init-eqprop.git
