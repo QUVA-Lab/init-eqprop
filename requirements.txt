@@ -3,5 +3,5 @@ matplotlib
 torch
 torchvision
 theano
--e git+https://github.com/quva-lab/artemis.git@peter
--e git+https://github.com/petered/plato.git@ongoing_changes_2
+-e git+https://github.com/quva-lab/artemis.git@peter#egg=artemis
+-e git+https://github.com/petered/plato.git@ongoing_changes_2#egg=plato
